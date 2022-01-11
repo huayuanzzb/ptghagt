@@ -22,5 +22,10 @@ jobs:
           distribution: temurin
       - name: Setup maven
         uses: stCarolas/setup-maven@v4.2
-      - run: mvn -version
+      - run: mvn clean install
+      - run: mkdir staging && cp target/*.jar staging
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Package
+          path: staging
 
