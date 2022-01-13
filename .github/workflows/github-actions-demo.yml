@@ -9,6 +9,7 @@ jobs:
         with:
           python-version: 3.9
       - run: python -V
+      - run: pip -V
   Explore-GitHub-Actions:
     runs-on: self-hosted
     steps:
