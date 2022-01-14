@@ -15,11 +15,16 @@ jobs:
         uses: actions/checkout@v2
       - run: |
           echo "refresh_token: '6a4cf490e1d14a0e81444416d18b6022'"  >  ~/.config/aliyunpan.yaml
+      - name: Setup java
+        uses: actions/setup-java@v2.5.0
+        with:
+          java-version: 8
+          distribution: temurin
+      - name: Setup maven
+        uses: stCarolas/setup-maven@v4.2
+      - run: mvn clean install 
       - run: |
-          aliyunpan-cli mkdir libs
-          echo "this is a test txt" > tst.txt
-          aliyunpan-cli upload -h
-          aliyunpan-cli upload tst.txt
+          aliyunpan-cli upload target/*.jar
       
 #   Explore-GitHub-Actions:
 #     runs-on: self-hosted
