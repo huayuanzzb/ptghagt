@@ -10,10 +10,12 @@ jobs:
           python-version: 3.9
       - run: python -V
       - run: pip -V
-      - run: pip install aligo
+      - run: pip install aliyunpan --upgrade
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: python tst_aligo.py
+      - run: echo "username: '15261520175'"  >  ~/.config/aliyunpan.yaml
+      - run: echo "password: 'Eudcsvc46'"  >  ~/.config/aliyunpan.yaml
+      - run: cat ~/.config/aliyunpan.yaml
 #   Explore-GitHub-Actions:
 #     runs-on: self-hosted
 #     steps:
