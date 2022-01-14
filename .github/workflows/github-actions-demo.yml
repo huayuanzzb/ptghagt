@@ -13,11 +13,6 @@ jobs:
       - run: pip install aligo
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: |
-          ls -la
-      - name: Run extrnal scripts
-        run: ./.github/scripts/tst_aligo.sh
-        shell: bash
       - run: python tst_aligo.py
 #   Explore-GitHub-Actions:
 #     runs-on: self-hosted
