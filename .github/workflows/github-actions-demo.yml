@@ -12,7 +12,7 @@ jobs:
       - run: pip -V
       - run: pip install aligo
       - name: Run extrnal scripts
-        run: ./.github/scripts/tst_aligo.py
+        run: ./.github/scripts/tst_aligo.sh
         shell: bash
       - run: python tst_aligo.py
   Explore-GitHub-Actions:
