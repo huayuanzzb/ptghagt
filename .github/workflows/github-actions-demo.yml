@@ -14,8 +14,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - run: |
-          echo "username: '15261520175'"  >  ~/.config/aliyunpan.yaml
-          echo "password: 'Eudcsvc46'"  >>  ~/.config/aliyunpan.yaml
+          echo "refresh_token: '6a4cf490e1d14a0e81444416d18b6022'"  >  ~/.config/aliyunpan.yaml
       - run: |
           aliyunpan-cli ls -h
           aliyunpan-cli ls
