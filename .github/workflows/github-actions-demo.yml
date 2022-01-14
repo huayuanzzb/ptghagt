@@ -16,8 +16,10 @@ jobs:
       - run: |
           echo "refresh_token: '6a4cf490e1d14a0e81444416d18b6022'"  >  ~/.config/aliyunpan.yaml
       - run: |
-          aliyunpan-cli ls -h
-          aliyunpan-cli ls
+          aliyunpan-cli mkdir libs
+          echo "this is a test txt" > tst.txt
+          aliyunpan-cli upload -h
+          aliyunpan-cli upload tst.txt
       
 #   Explore-GitHub-Actions:
 #     runs-on: self-hosted
