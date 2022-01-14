@@ -24,8 +24,7 @@ jobs:
         uses: stCarolas/setup-maven@v4.2
       - run: mvn clean install 
       - run: |
-          aliyunpan-cli upload target/*.jar
-      
+          aliyunpan-cli download demo-0.0.1-SNAPSHOT.jar .
 #   Explore-GitHub-Actions:
 #     runs-on: self-hosted
 #     steps:
