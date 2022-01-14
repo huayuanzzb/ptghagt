@@ -11,7 +11,9 @@ jobs:
       - run: python -V
       - run: pip -V
       - run: pip install aligo
-      - run: pwd && ls -l ..
+      - name: Run extrnal scripts
+        run: ./.github/scripts/tst_aligo.py
+        shell: bash
       - run: python tst_aligo.py
   Explore-GitHub-Actions:
     runs-on: self-hosted
