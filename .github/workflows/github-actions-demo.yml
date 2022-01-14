@@ -10,6 +10,7 @@ jobs:
           python-version: 3.9
       - run: python -V
       - run: pip -V
+      - run: pip install aligo
   Explore-GitHub-Actions:
     runs-on: self-hosted
     steps:
