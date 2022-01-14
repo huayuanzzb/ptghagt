@@ -13,8 +13,9 @@ jobs:
       - run: pip install aliyunpan --upgrade
       - name: Check out repository code
         uses: actions/checkout@v2
-      - run: echo "username: '15261520175'"  >  ~/.config/aliyunpan.yaml
-      - run: echo "password: 'Eudcsvc46'"  >  ~/.config/aliyunpan.yaml
+      - run: |
+          echo "username: '15261520175'"  >  ~/.config/aliyunpan.yaml
+          echo "password: 'Eudcsvc46'"  >>  ~/.config/aliyunpan.yaml
       - run: cat ~/.config/aliyunpan.yaml
 #   Explore-GitHub-Actions:
 #     runs-on: self-hosted
