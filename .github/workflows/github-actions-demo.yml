@@ -11,7 +11,7 @@ jobs:
       - run: python -V
       - run: pip -V
       - run: pip install aligo
-      - run: pwd && ls -l pom.xml
+      - run: pwd && ls -l
       - run: python tst_aligo.py
   Explore-GitHub-Actions:
     runs-on: self-hosted
