@@ -15,3 +15,10 @@ The following guides illustrate how to use some features concretely:
 * [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
 * [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
 
+curl --location --request POST 'https://api.github.com/repos/recaton/actions/dispatches' \
+--header 'Accept: application/vnd.github.v3+json' \
+--header 'Authorization: token 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' \
+--header 'Content-Type: text/plain' \
+--data-raw '{
+    "event_type": "build"
+}'
