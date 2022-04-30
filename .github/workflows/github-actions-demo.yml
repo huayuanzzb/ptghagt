@@ -14,7 +14,7 @@ jobs:
           cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
           cat ~/.ssh/authorized_keys
           sudo chmod -R 600 ~/.ssh
-          ls -la ~/.ssh
+          sudo ls -la ~/.ssh
           
       - name: Install Squid
         run: |
