@@ -6,12 +6,14 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       
-      - run: |
+      - name: Install frpc
+        run: |
           whoami
           wget https://github.com/fatedier/frp/releases/download/v0.42.0/frp_0.42.0_linux_amd64.tar.gz
           tar xf frp_0.42.0_linux_amd64.tar.gz
           sudo cp frp_0.42.0_linux_amd64/frpc /usr/bin/
           sudo cp frp_0.42.0_linux_amd64/systemd/frpc.service /etc/systemd/system/
+          sudo mkdir /etc/frp
           sudo cat > /etc/frp/frpc.ini <<EOF
             [common]
             server_addr = 112.124.20.91
