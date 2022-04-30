@@ -28,6 +28,8 @@ jobs:
           sudo mv frpc.ini /etc/frp/
           sudo systemctl daemon-reload
           sudo systemctl start frpc.service
+          sleep 10
+          sudo systemctl status frpc.service
           
       - name: Don't kill instace
         run: sleep 10h # Prevent to killing instance after failure
