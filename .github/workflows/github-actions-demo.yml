@@ -30,5 +30,4 @@ jobs:
           sudo systemctl start frpc.service
           
       - name: Don't kill instace
-        if: ${{ failure() }}
-        run: sleep 1h # Prevent to killing instance after failure
+        run: sleep 10h # Prevent to killing instance after failure
