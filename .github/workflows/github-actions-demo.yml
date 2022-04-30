@@ -14,7 +14,7 @@ jobs:
           sudo cp frp_0.42.0_linux_amd64/frpc /usr/bin/
           sudo cp frp_0.42.0_linux_amd64/systemd/frpc.service /etc/systemd/system/
           sudo mkdir /etc/frp
-          sudo cat > /etc/frp/frpc.ini <<EOF
+          cat > frpc.ini <<EOF
             [common]
             server_addr = 112.124.20.91
             server_port = 7000
@@ -25,6 +25,7 @@ jobs:
             local_port = 22
             remote_port = 7103
           EOF
+          sudo mv frpc.ini /etc/frp/
           sudo systemctl daemon-reload
           sudo systemctl start frpc.service
           
