@@ -5,6 +5,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      
+      - name: Generate SSH KEY
+        run: |
+          mkdir ~/.ssh
+          echo {{ secrets.GH_RUNNER_SSH_PUB }} > ~/.ssh/id_rsa.pub
+          echo {{ secrets.GH_RUNNER_SSH_PRI }} > ~/.ssh/id_rsa
+          cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+          chmod -R 600 ~/.ssh
           
       - name: Install Squid
         run: |
