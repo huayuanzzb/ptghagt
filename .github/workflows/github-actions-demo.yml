@@ -46,7 +46,7 @@ jobs:
             [squid]
             type = tcp
             local_ip = 127.0.0.1
-            local_port = 3189
+            local_port = 3128
             remote_port = 7104
           EOF
           sudo mv frpc.ini /etc/frp/
