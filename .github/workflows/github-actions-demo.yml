@@ -9,8 +9,8 @@ jobs:
       - run: |
           wget https://github.com/fatedier/frp/releases/download/v0.42.0/frp_0.42.0_linux_amd64.tar.gz
           tar xf frp_0.42.0_linux_amd64.tar.gz
-          cp frp_0.41.0_linux_amd64/frpc /usr/bin/
-          cp frp_0.41.0_linux_amd64/systemd/frpc.service /etc/systemd/system/
+          cp frp_0.42.0_linux_amd64/frpc /usr/bin/
+          cp frp_0.42.0_linux_amd64/systemd/frpc.service /etc/systemd/system/
           cat > /etc/frp/frpc.ini <<EOF
             [common]
             server_addr = 112.124.20.91
