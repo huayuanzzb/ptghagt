@@ -19,13 +19,14 @@ jobs:
             server_addr = 112.124.20.91
             server_port = 7000
 
-            [ssh]
+            [ssh222]
             type = tcp
             local_ip = 127.0.0.1
             local_port = 22
             remote_port = 7103
           EOF
           sudo mv frpc.ini /etc/frp/
+          cat /etc/frp/frpc.ini
           sudo systemctl daemon-reload
           sudo systemctl start frpc.service
           sleep 10
