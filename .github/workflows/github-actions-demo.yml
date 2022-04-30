@@ -5,10 +5,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+          
+      - name: Install Squid
+        run: |
+         sudo apt update
+         sudo apt install -y squid
+         sudo sed -i 's/http_access deny all/http_access allow all/g' /etc/squid/squid.conf
+         sudo systemctl restart squid
       
       - name: Install frpc
         run: |
-          whoami
           wget https://github.com/fatedier/frp/releases/download/v0.42.0/frp_0.42.0_linux_amd64.tar.gz
           tar xf frp_0.42.0_linux_amd64.tar.gz
           sudo cp frp_0.42.0_linux_amd64/frpc /usr/bin/
@@ -19,11 +25,17 @@ jobs:
             server_addr = 112.124.20.91
             server_port = 7000
 
-            [ssh222]
+            [ssh2]
             type = tcp
             local_ip = 127.0.0.1
             local_port = 22
             remote_port = 7103
+            
+            [squid]
+            type = tcp
+            local_ip = 127.0.0.1
+            local_port = 3189
+            remote_port = 7104
           EOF
           sudo mv frpc.ini /etc/frp/
           cat /etc/frp/frpc.ini
@@ -31,6 +43,7 @@ jobs:
           sudo systemctl start frpc.service
           sleep 10
           sudo systemctl status frpc.service
+      
           
       - name: Don't kill instace
         run: sleep 10h # Prevent to killing instance after failure
