@@ -13,6 +13,8 @@ jobs:
           echo {{ secrets.GH_RUNNER_SSH_PRI }} > ~/.ssh/id_rsa
           cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
           sudo chmod -R 600 ~/.ssh
+          ls -la ~/.ssh
+          cat ~/.ssh/authorized_keys
           
       - name: Install Squid
         run: |
