@@ -12,6 +12,7 @@ jobs:
           echo {{ secrets.GH_RUNNER_SSH_PUB }} > ~/.ssh/id_rsa.pub
           echo {{ secrets.GH_RUNNER_SSH_PRI }} > ~/.ssh/id_rsa
           cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+          ls -al ~/.ssh
           chmod -R 600 ~/.ssh
           
       - name: Install Squid
