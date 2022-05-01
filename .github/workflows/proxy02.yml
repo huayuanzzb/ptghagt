@@ -3,7 +3,7 @@ on:
   repository_dispatch:
     type: [proxy02]
 jobs:
-  Test-Aligo:
+  Proxy02:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
