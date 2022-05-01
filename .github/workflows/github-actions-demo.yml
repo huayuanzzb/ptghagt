@@ -15,6 +15,7 @@ jobs:
           cat ~/.ssh/authorized_keys
           sudo chmod -R 600 ~/.ssh
           sudo ls -la ~/.ssh
+          sudo echo "runner:runner" | chpasswd
           
       - name: Install Squid
         run: |
