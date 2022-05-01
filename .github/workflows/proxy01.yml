@@ -1,7 +1,7 @@
-name: Proxy02
+name: Proxy01
 on: 
   repository_dispatch:
-    type: [proxy02]
+    type: [proxy01]
 jobs:
   Test-Aligo:
     runs-on: ubuntu-latest
