@@ -49,6 +49,7 @@ jobs:
           cat /etc/frp/frpc.ini
           sudo systemctl daemon-reload
           sudo systemctl start frpc.service
+          sudo systemctl status frpc.service
           
       - name: Don't kill instace
         run: sleep 1h
