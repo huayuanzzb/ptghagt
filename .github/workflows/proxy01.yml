@@ -37,13 +37,13 @@ jobs:
             type = tcp
             local_ip = 127.0.0.1
             local_port = 22
-            remote_port = 7105
+            remote_port = 7103
             
             [squid]
             type = tcp
             local_ip = 127.0.0.1
             local_port = 3128
-            remote_port = 7106
+            remote_port = 7104
           EOF
           sudo mv frpc.ini /etc/frp/
           cat /etc/frp/frpc.ini
