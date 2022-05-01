@@ -1,7 +1,7 @@
 name: Proxy01
 on: 
   repository_dispatch:
-    type: [proxy01]
+    types: [proxy01]
 jobs:
   Proxy01:
     runs-on: ubuntu-latest
