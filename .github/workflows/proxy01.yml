@@ -1,5 +1,7 @@
 name: GitHub Actions Demo
-on: [workflow_dispatch]
+on: 
+  repository_dispatch:
+    type: [proxy01]
 jobs:
   Test-Aligo:
     runs-on: ubuntu-latest
