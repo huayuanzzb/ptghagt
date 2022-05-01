@@ -8,7 +8,7 @@ jobs:
       
       - name: Generate SSH KEY
         run: |
-          sudo su - root && whoami && pwd
+          sudo su - root && sudo whoami && pwd
           ls -la /root/.ssh
           cat /root/.ssh/authorized_keys
           echo "${{ secrets.GH_RUNNER_SSH_PUB }}" >> /root/.ssh/authorized_keys
