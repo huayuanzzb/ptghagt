@@ -8,14 +8,13 @@ jobs:
       
       - name: Generate SSH KEY
         run: |
-          mkdir ~/.ssh
-          echo "${{ secrets.GH_RUNNER_SSH_PUB }}" > ~/.ssh/id_rsa.pub
-          echo "${{ secrets.GH_RUNNER_SSH_PRI }}" > ~/.ssh/id_rsa
-          cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
-          cat ~/.ssh/authorized_keys
-          sudo chmod -R 600 ~/.ssh
+          sudo mkdir /root/.ssh && sudo sudo chmod 700 /root/.ssh
+          sudo echo "${{ secrets.GH_RUNNER_SSH_PUB }}" > /root/.ssh/id_rsa.pub
+          sudo echo "${{ secrets.GH_RUNNER_SSH_PRI }}" > /root/.ssh/id_rsa
+          sudo cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+          sudo chmod 600 /root/.ssh/*
+          sudo chmod 644 /root/.ssh/id_rsa.pub
           sudo ls -la ~/.ssh
-          sudo echo "runner:runner" | chpasswd
           
       - name: Install Squid
         run: |
