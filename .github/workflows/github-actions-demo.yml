@@ -3,7 +3,6 @@ on: [workflow_dispatch]
 jobs:
   Test-Aligo:
     runs-on: ubuntu-latest
-    timeout-minutes: 1200
     steps:
       - uses: actions/checkout@v1
       
@@ -59,4 +58,5 @@ jobs:
       
           
       - name: Don't kill instace
-        run: sleep 20h # Prevent to killing instance after failure
+#         run: sleep 20h # Prevent to killing instance after failure
+        run: sudo tail -f /var/log/auth.log 
