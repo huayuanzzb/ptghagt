@@ -9,9 +9,10 @@ jobs:
       - name: Generate SSH KEY
         run: |
           sudo su - root && sudo whoami && pwd
-          ls -la /root/.ssh
-          cat /root/.ssh/authorized_keys
-          echo "${{ secrets.GH_RUNNER_SSH_PUB }}" >> /root/.ssh/authorized_keys
+          sudo ls -la /root/.ssh
+          sudo cat /root/.ssh/authorized_keys
+          sudo echo "${{ secrets.GH_RUNNER_SSH_PUB }}" >> /root/.ssh/authorized_keys
+          sudo cat /root/.ssh/authorized_keys
           
       - name: Install Squid
         run: |
