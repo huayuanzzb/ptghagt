@@ -29,17 +29,17 @@ jobs:
           sudo cp frp_0.42.0_linux_amd64/systemd/frpc.service /etc/systemd/system/
           sudo mkdir /etc/frp
           cat > frpc.ini <<EOF
-            [common]
+            [common-2]
             server_addr = 112.124.20.91
             server_port = 7000
 
-            [ssh2]
+            [ssh2-2]
             type = tcp
             local_ip = 127.0.0.1
             local_port = 22
             remote_port = 7105
             
-            [squid]
+            [squid-2]
             type = tcp
             local_ip = 127.0.0.1
             local_port = 3128
