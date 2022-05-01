@@ -29,7 +29,7 @@ jobs:
           sudo cp frp_0.42.0_linux_amd64/systemd/frpc.service /etc/systemd/system/
           sudo mkdir /etc/frp
           cat > frpc.ini <<EOF
-            [common-2]
+            [common]
             server_addr = 112.124.20.91
             server_port = 7000
 
