@@ -1,0 +1,54 @@
+name: Proxy02
+on: 
+  repository_dispatch:
+    type: [proxy02]
+jobs:
+  Test-Aligo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      
+      - name: Change runner password
+        run: |
+          echo -e "runner\nrunner" | sudo passwd runner
+          
+      - name: Install Squid
+        run: |
+         sudo apt update
+         sudo apt install -y squid
+         sudo sed -i 's/http_access deny all/http_access allow all/g' /etc/squid/squid.conf
+         grep port /etc/squid/squid.conf
+         sudo systemctl restart squid
+         sudo systemctl status squid
+      
+      - name: Install frpc
+        run: |
+          wget https://github.com/fatedier/frp/releases/download/v0.42.0/frp_0.42.0_linux_amd64.tar.gz
+          tar xf frp_0.42.0_linux_amd64.tar.gz
+          sudo cp frp_0.42.0_linux_amd64/frpc /usr/bin/
+          sudo cp frp_0.42.0_linux_amd64/systemd/frpc.service /etc/systemd/system/
+          sudo mkdir /etc/frp
+          cat > frpc.ini <<EOF
+            [common]
+            server_addr = 112.124.20.91
+            server_port = 7000
+
+            [ssh2]
+            type = tcp
+            local_ip = 127.0.0.1
+            local_port = 22
+            remote_port = 7105
+            
+            [squid]
+            type = tcp
+            local_ip = 127.0.0.1
+            local_port = 3128
+            remote_port = 7106
+          EOF
+          sudo mv frpc.ini /etc/frp/
+          cat /etc/frp/frpc.ini
+          sudo systemctl daemon-reload
+          sudo systemctl start frpc.service
+          
+      - name: Don't kill instace
+        run: sleep 1h
