@@ -52,4 +52,4 @@ jobs:
           sudo systemctl status frpc.service
           
       - name: Don't kill instace
-        run: sleep 1h
+        run: sleep ${{ github.event.client_payload.keepalive }}
