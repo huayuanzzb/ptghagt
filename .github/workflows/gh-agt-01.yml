@@ -28,9 +28,9 @@ jobs:
               appType=`echo $app | jq -r '.appType'`
               if [ $appType == "Backend" ]; then
                 mkdir $HOME/.m2
-                sed -i "s/ALIYUN_MAVEN_USERNAME/${{ secrets.ALIYUN_MAVEN_USERNAME }}/g" demo/settings.xml 
-                sed -i "s/ALIYUN_MAVEN_PASSWORD/${{ secrets.ALIYUN_MAVEN_PASSWORD }}/g" demo/settings.xml 
-                cp demo/settings.xml $HOME/.m2/settings.xml 
+                sed -i "s/ALIYUN_MAVEN_USERNAME/${{ secrets.ALIYUN_MAVEN_USERNAME }}/g" settings.xml 
+                sed -i "s/ALIYUN_MAVEN_PASSWORD/${{ secrets.ALIYUN_MAVEN_PASSWORD }}/g" settings.xml 
+                cp settings.xml $HOME/.m2/settings.xml 
                 ls -la $HOME/.m2/settings.xml && md5sum $HOME/.m2/settings.xml
                 docker run -i -v "$repo":/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven vnnvanhuong/maven-oracle-jdk:8 mvn dependency:copy-dependencies
               elif [ $appType == "Frontend" ]; then
