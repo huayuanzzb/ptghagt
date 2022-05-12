@@ -40,16 +40,17 @@ jobs:
       #     sudo systemctl daemon-reload
       #     sudo systemctl start frpc.service
       
+      - name: Setup Docker
+        uses: docker/setup-buildx-action@v2.0.0
+
+      - name: Test Docker version
+        run: docker --version
+        
       - name: Install jenkins agent
         run: |
           wget ${{ github.event.client_payload.agt.downloadURL }}
           sudo mkdir -p /data/jenkins && sudo chown $USER: /data/jenkins
           java -jar agent.jar -jnlpUrl ${{ github.event.client_payload.agt.URL }} -secret "::add-mask::${{ github.event.client_payload.agt.key }}" -workDir "${{ github.event.client_payload.agt.workdir }}"
           
-      - name: Setup Docker
-        uses: docker/setup-buildx-action@v2.0.0
-
-      - name: Test Docker version
-        run: docker --version
-      # - name: Don't kill instace
-      #   run: sleep ${{ github.event.client_payload.keepalive }}
+      - name: Don't kill instace
+        run: sleep ${{ github.event.client_payload.keepalive }}
