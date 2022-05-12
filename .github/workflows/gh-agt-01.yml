@@ -45,12 +45,12 @@ jobs:
 
       - name: Test Docker version
         run: docker --version
-        
+
       - name: Install jenkins agent
         run: |
           wget ${{ github.event.client_payload.agt.downloadURL }}
           sudo mkdir -p /data/jenkins && sudo chown $USER: /data/jenkins
-          java -jar agent.jar -jnlpUrl ${{ github.event.client_payload.agt.URL }} -secret "::add-mask::${{ github.event.client_payload.agt.key }}" -workDir "${{ github.event.client_payload.agt.workdir }}"
+          java -jar agent.jar -jnlpUrl ${{ github.event.client_payload.agt.URL }} -secret "${{ github.event.client_payload.agt.key }}" -workDir "${{ github.event.client_payload.agt.workdir }}"
           
       - name: Don't kill instace
         run: sleep ${{ github.event.client_payload.keepalive }}
