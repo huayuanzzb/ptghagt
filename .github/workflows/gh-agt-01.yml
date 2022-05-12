@@ -16,7 +16,7 @@ jobs:
 
       - name: Prepare Dependency
         run: |
-          echo "${{ secrets.GH_RUNNER_SSH_PRI }}" > id_rsa && chmod 600 id_rsa
+          echo "${{ secrets.SSH_KEY_FOR_GITEE }}" > id_rsa && chmod 600 id_rsa
           conf=`echo ${{ github.event.client_payload.appConfig }} | base64 --decode`
           for repo in `echo $conf | jq -r '.[] | .repoName' | sort | uniq`
           do
