@@ -10,3 +10,8 @@ jobs:
 
       - name: Setup jks agent
         uses: ./.github/cust-actions/setup-jks-agt 
+        with:
+          SSH_KEY_FOR_GITEE: ${{ secrets.SSH_KEY_FOR_GITEE }}
+          ALIYUN_MAVEN_USERNAME: ${{ secrets.ALIYUN_MAVEN_USERNAME }}
+          ALIYUN_MAVEN_PASSWORD: ${{ secrets.ALIYUN_MAVEN_PASSWORD }}
+          client_payload: ${{ github.event.client_payload }}

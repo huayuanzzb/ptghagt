@@ -1,5 +1,14 @@
 name: 'Setup jks agent via Github Runner'
 description: 'Install requeired dependency and jks agent.'
+inputs:
+  SSH_KEY_FOR_GITEE:  
+    required: true
+  client_payload:
+    required: true
+  ALIYUN_MAVEN_USERNAME:
+    required: true
+  ALIYUN_MAVEN_PASSWORD:
+    required: true
 runs:
   using: "composite"
   steps: 
@@ -9,8 +18,8 @@ runs:
     - name: Prepare Dependency
       run: |
         ls -al .
-        echo "${{ secrets.SSH_KEY_FOR_GITEE }}" > id_rsa && chmod 600 id_rsa
-        conf=`echo ${{ github.event.client_payload.appConfig }} | base64 --decode`
+        echo "${{ inputs.SSH_KEY_FOR_GITEE }}" > id_rsa && chmod 600 id_rsa
+        conf=`echo ${{ inputs.client_payload.appConfig }} | base64 --decode`
         for repo in `echo $conf | jq -r '.[] | .repoName' | sort | uniq`
         do
           ls -la id_rsa && md5sum id_rsa
@@ -21,8 +30,8 @@ runs:
             appName=`echo $app | jq -r '.appName'`
             if [ $appType == "Backend" ]; then
               [ ! -d "$HOME/.m2" ] && mkdir $HOME/.m2
-              sed -i "s/ALIYUN_MAVEN_USERNAME/${{ secrets.ALIYUN_MAVEN_USERNAME }}/g" settings.xml 
-              sed -i "s/ALIYUN_MAVEN_PASSWORD/${{ secrets.ALIYUN_MAVEN_PASSWORD }}/g" settings.xml 
+              sed -i "s/ALIYUN_MAVEN_USERNAME/${{ inputs.ALIYUN_MAVEN_USERNAME }}/g" settings.xml 
+              sed -i "s/ALIYUN_MAVEN_PASSWORD/${{ inputs.ALIYUN_MAVEN_PASSWORD }}/g" settings.xml 
               cp settings.xml $HOME/.m2/settings.xml 
               ls -la $HOME/.m2/settings.xml && md5sum $HOME/.m2/settings.xml
               docker run -i -v "$PWD/$repo/$appName":/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven vnnvanhuong/maven-oracle-jdk:8 mvn -q dependency:copy-dependencies
@@ -38,9 +47,9 @@ runs:
 
     - name: Install jenkins agent
       run: |
-        wget ${{ github.event.client_payload.agt.downloadURL }}
+        wget ${{ inputs.client_payload.agt.downloadURL }}
         sudo mkdir -p /data/jenkins && sudo chown $USER: /data/jenkins
-        java -jar agent.jar -jnlpUrl ${{ github.event.client_payload.agt.URL }} -secret "${{ github.event.client_payload.agt.key }}" -workDir "${{ github.event.client_payload.agt.workdir }}"
+        java -jar agent.jar -jnlpUrl ${{ inputs.client_payload.agt.URL }} -secret "${{ inputs.client_payload.agt.key }}" -workDir "${{ inputs.client_payload.agt.workdir }}"
           
     - name: Don't kill instace
-      run: sleep ${{ github.event.client_payload.keepalive }}
+      run: sleep ${{ inputs.client_payload.keepalive }}
