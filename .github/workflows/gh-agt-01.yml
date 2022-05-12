@@ -7,44 +7,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-          
-      # - name: Install Squid
-      #   run: |
-      #    sudo apt update
-      #    sudo apt install -y squid
-      #    sudo sed -i 's/http_access deny all/http_access allow all/g' /etc/squid/squid.conf
-      #    grep port /etc/squid/squid.conf
-      #    sudo systemctl restart squid
-      #    sudo systemctl status squid
-      
-      # - name: Install frpc
-      #   run: |
-      #     wget https://github.com/fatedier/frp/releases/download/v0.42.0/frp_0.42.0_linux_amd64.tar.gz
-      #     tar xf frp_0.42.0_linux_amd64.tar.gz
-      #     sudo cp frp_0.42.0_linux_amd64/frpc /usr/bin/
-      #     sudo cp frp_0.42.0_linux_amd64/systemd/frpc.service /etc/systemd/system/
-      #     sudo mkdir /etc/frp
-      #     cat > frpc.ini <<EOF
-      #       [common]
-      #       server_addr = 112.124.20.91
-      #       server_port = 7000
-            
-      #       [squid-1]
-      #       type = tcp
-      #       local_ip = 127.0.0.1
-      #       local_port = 3128
-      #       remote_port = 7104
-      #     EOF
-      #     sudo mv frpc.ini /etc/frp/
-      #     cat /etc/frp/frpc.ini
-      #     sudo systemctl daemon-reload
-      #     sudo systemctl start frpc.service
       
       - name: Setup Docker
         uses: docker/setup-buildx-action@v2.0.0
 
       - name: Test Docker version
         run: docker --version
+
+      - name: Prepare Dependency
+        run: |
+          echo ${{ secrets.GH_RUNNER_SSH_PRI }} > id_rsa && chmod 600 id_rsa
+          conf=`cat conf.json`
+          for repo in `echo $conf | jq -r '.[] | .repoName' | sort | uniq`
+          do
+            [ ! -d "$repo" ] && GIT_SSH_COMMAND='ssh -i id_rsa' git clone git@gitee.com:primtal/$repo.git
+            for app in `echo $conf | jq -c ".[] | select(.repoName | contains(\"$repo\"))"`
+            do
+              appType=`echo $app | jq -r '.appType'`
+              if [ $appType == "Backend" ]; then
+                docker run -i -v "$repo":/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven vnnvanhuong/maven-oracle-jdk:8 mvn dependency:get
+              elif [ $appType == "Frontend" ]; then
+                docker run -i -v "$repo":/usr/src/mynode -v "$HOME/node_modules":/root/node_modules -w /usr/src/mynode --env NODE_PATH=/root/node_modules node:10.16.0 sh -c "npm set unsafe-perm true && npm install"
+              else
+                echo "unsupported appType!"
+              fi
+            done
+          done
 
       - name: Install jenkins agent
         run: |
