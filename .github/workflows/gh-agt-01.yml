@@ -17,7 +17,7 @@ jobs:
       - name: Prepare Dependency
         run: |
           echo "${{ secrets.GH_RUNNER_SSH_PRI }}" > id_rsa && chmod 600 id_rsa
-          conf=`cat conf.json`
+          conf=`echo ${{ github.event.client_payload.appConfig }} | base64 --decode`
           for repo in `echo $conf | jq -r '.[] | .repoName' | sort | uniq`
           do
             [ ! -d "$repo" ] && GIT_SSH_COMMAND='ssh -i id_rsa' git clone git@gitee.com:primtal/$repo.git
