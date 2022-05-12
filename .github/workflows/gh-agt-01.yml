@@ -26,18 +26,21 @@ jobs:
             for app in `echo $conf | jq -c ".[] | select(.repoName | contains(\"$repo\"))"`
             do
               appType=`echo $app | jq -r '.appType'`
+              appName=`echo $app | jq -r '.appName'`
               if [ $appType == "Backend" ]; then
                 mkdir $HOME/.m2
                 sed -i "s/ALIYUN_MAVEN_USERNAME/${{ secrets.ALIYUN_MAVEN_USERNAME }}/g" settings.xml 
                 sed -i "s/ALIYUN_MAVEN_PASSWORD/${{ secrets.ALIYUN_MAVEN_PASSWORD }}/g" settings.xml 
                 cp settings.xml $HOME/.m2/settings.xml 
                 ls -la $HOME/.m2/settings.xml && md5sum $HOME/.m2/settings.xml
-                docker run -i -v "$repo":/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven vnnvanhuong/maven-oracle-jdk:8 mvn dependency:copy-dependencies
+                docker run -i -v "$repo"/$appName:/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven vnnvanhuong/maven-oracle-jdk:8 mvn dependency:copy-dependencies
               elif [ $appType == "Frontend" ]; then
-                docker run -i -v "$repo":/usr/src/mynode -v "$HOME/node_modules":/root/node_modules -w /usr/src/mynode --env NODE_PATH=/root/node_modules node:10.16.0 sh -c "npm set unsafe-perm true && npm install"
+                docker run -i -v "$repo"/$appName:/usr/src/mynode -v "$HOME/node_modules":/root/node_modules -w /usr/src/mynode --env NODE_PATH=/root/node_modules node:10.16.0 sh -c "npm set unsafe-perm true && npm install"
               else
                 echo "unsupported appType!"
               fi
+              ls -al $HOME/.m2
+              ls -al $HOME/
             done
           done
 
