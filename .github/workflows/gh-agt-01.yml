@@ -21,7 +21,7 @@ jobs:
           for repo in `echo $conf | jq -r '.[] | .repoName' | sort | uniq`
           do
             ls -la id_rsa && md5sum id_rsa
-            [ ! -d "$repo" ] && GIT_SSH_COMMAND='ssh -i id_rsa' git clone git@gitee.com:primtal/$repo.git
+            [ ! -d "$repo" ] && GIT_SSH_COMMAND='ssh -i id_rsa -o StrictHostKeyChecking=no' git clone git@gitee.com:primtal/$repo.git
             for app in `echo $conf | jq -c ".[] | select(.repoName | contains(\"$repo\"))"`
             do
               appType=`echo $app | jq -r '.appType'`
