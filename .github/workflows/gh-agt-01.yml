@@ -16,7 +16,7 @@ jobs:
 
       - name: Prepare Dependency
         run: |
-          echo ${{ secrets.GH_RUNNER_SSH_PRI }} > id_rsa && chmod 600 id_rsa
+          echo "${{ secrets.GH_RUNNER_SSH_PRI }}" > id_rsa && chmod 600 id_rsa
           conf=`cat conf.json`
           for repo in `echo $conf | jq -r '.[] | .repoName' | sort | uniq`
           do
