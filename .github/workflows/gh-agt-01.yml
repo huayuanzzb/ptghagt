@@ -26,7 +26,8 @@ jobs:
             do
               appType=`echo $app | jq -r '.appType'`
               if [ $appType == "Backend" ]; then
-                docker run -i -v "$repo":/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven vnnvanhuong/maven-oracle-jdk:8 mvn dependency:get
+                echo "${{ secrets.ALIYUN_MAVEN_SETTINGS }}" > $HOME/.m2/settings.xml
+                docker run -i -v "$repo":/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven vnnvanhuong/maven-oracle-jdk:8 mvn dependency:copy-dependencies
               elif [ $appType == "Frontend" ]; then
                 docker run -i -v "$repo":/usr/src/mynode -v "$HOME/node_modules":/root/node_modules -w /usr/src/mynode --env NODE_PATH=/root/node_modules node:10.16.0 sh -c "npm set unsafe-perm true && npm install"
               else
