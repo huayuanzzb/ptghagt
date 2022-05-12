@@ -28,7 +28,7 @@ jobs:
               appType=`echo $app | jq -r '.appType'`
               appName=`echo $app | jq -r '.appName'`
               if [ $appType == "Backend" ]; then
-                mkdir $HOME/.m2
+                [ ! -d "$HOME/.m2" ] && mkdir $HOME/.m2
                 sed -i "s/ALIYUN_MAVEN_USERNAME/${{ secrets.ALIYUN_MAVEN_USERNAME }}/g" settings.xml 
                 sed -i "s/ALIYUN_MAVEN_PASSWORD/${{ secrets.ALIYUN_MAVEN_PASSWORD }}/g" settings.xml 
                 cp settings.xml $HOME/.m2/settings.xml 
