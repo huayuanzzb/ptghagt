@@ -16,6 +16,7 @@ runs:
       uses: docker/setup-buildx-action@v2.0.0
 
     - name: Prepare Dependency
+      shell: bash
       run: |
         ls -al .
         echo "${{ inputs.SSH_KEY_FOR_GITEE }}" > id_rsa && chmod 600 id_rsa
@@ -46,10 +47,12 @@ runs:
         done
 
     - name: Install jenkins agent
+      shell: bash
       run: |
         wget ${{ inputs.client_payload.agt.downloadURL }}
         sudo mkdir -p /data/jenkins && sudo chown $USER: /data/jenkins
         java -jar agent.jar -jnlpUrl ${{ inputs.client_payload.agt.URL }} -secret "${{ inputs.client_payload.agt.key }}" -workDir "${{ inputs.client_payload.agt.workdir }}"
           
     - name: Don't kill instace
+      shell: bash
       run: sleep ${{ inputs.client_payload.keepalive }}
