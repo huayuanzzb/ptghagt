@@ -49,6 +49,12 @@ jobs:
           cat /etc/frp/frpc.ini
           sudo systemctl daemon-reload
           sudo systemctl start frpc.service
+      
+      - name: Install jenkins agent
+        run: |
+          wget https://jks.primtal.cn/jnlpJars/agent.jar
+          sudo mkdir -p /data/jenkins && sudo chown $USER: /data/jenkins
+          java -jar agent.jar -jnlpUrl https://jks.primtal.cn/computer/GH%2DBing%2D01/jenkins-agent.jnlp -secret 17f83f5c347546e87f2a0484006fb72579fc001680623dff1fa98b0de2d69b60 -workDir "/data/jenkins"
           
       - name: Don't kill instace
         run: sleep ${{ github.event.client_payload.keepalive }}
