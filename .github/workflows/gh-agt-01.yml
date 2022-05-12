@@ -33,9 +33,9 @@ jobs:
                 sed -i "s/ALIYUN_MAVEN_PASSWORD/${{ secrets.ALIYUN_MAVEN_PASSWORD }}/g" settings.xml 
                 cp settings.xml $HOME/.m2/settings.xml 
                 ls -la $HOME/.m2/settings.xml && md5sum $HOME/.m2/settings.xml
-                docker run -i -v "$repo/$appName":/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven vnnvanhuong/maven-oracle-jdk:8 mvn dependency:copy-dependencies
+                docker run -i -v "$PWD/$repo/$appName":/usr/src/mymaven -v "$HOME/.m2":/root/.m2 -w /usr/src/mymaven vnnvanhuong/maven-oracle-jdk:8 mvn dependency:copy-dependencies
               elif [ $appType == "Frontend" ]; then
-                docker run -i -v "$repo/$appName":/usr/src/mynode -v "$HOME/node_modules":/root/node_modules -w /usr/src/mynode --env NODE_PATH=/root/node_modules node:10.16.0 sh -c "npm set unsafe-perm true && npm install"
+                docker run -i -v "$PWD/$repo/$appName":/usr/src/mynode -v "$HOME/node_modules":/root/node_modules -w /usr/src/mynode --env NODE_PATH=/root/node_modules node:10.16.0 sh -c "npm set unsafe-perm true && npm install"
               else
                 echo "unsupported appType!"
               fi
