@@ -3,11 +3,11 @@ description: 'Install requeired dependency and jks agent.'
 inputs:
   SSH_KEY_FOR_GITEE:  
     required: true
-  client_payload:
-    required: true
   ALIYUN_MAVEN_USERNAME:
     required: true
   ALIYUN_MAVEN_PASSWORD:
+    required: true
+  appConfig:
     required: true
 runs:
   using: "composite"
@@ -20,7 +20,7 @@ runs:
       run: |
         ls -al .
         echo "${{ inputs.SSH_KEY_FOR_GITEE }}" > id_rsa && chmod 600 id_rsa
-        conf=`echo ${{ inputs.client_payload.appConfig }} | base64 --decode`
+        conf=`echo ${{ inputs.appConfig }} | base64 --decode`
         for repo in `echo $conf | jq -r '.[] | .repoName' | sort | uniq`
         do
           ls -la id_rsa && md5sum id_rsa
@@ -49,10 +49,10 @@ runs:
     - name: Install jenkins agent
       shell: bash
       run: |
-        wget ${{ inputs.client_payload.agt.downloadURL }}
-        sudo mkdir -p /data/jenkins && sudo chown $USER: /data/jenkins
-        java -jar agent.jar -jnlpUrl ${{ inputs.client_payload.agt.URL }} -secret "${{ inputs.client_payload.agt.key }}" -workDir "${{ inputs.client_payload.agt.workdir }}"
+        wget ${{ inputs.agtDownloadURL }}
+        sudo mkdir -p ${{ inputs.agtWorkdir }} && sudo chown $USER: ${{ inputs.agtWorkdir }}
+        java -jar agent.jar -jnlpUrl ${{ inputs.agtURL }} -secret "${{ inputs.agtKey }}" -workDir "${{ inputs.agtWorkdir }}"
           
     - name: Don't kill instace
       shell: bash
-      run: sleep ${{ inputs.client_payload.keepalive }}
+      run: sleep ${{ inputs.keepalive }}
