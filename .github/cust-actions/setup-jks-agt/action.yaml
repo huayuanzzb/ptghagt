@@ -59,9 +59,9 @@ runs:
     - name: Install jenkins agent
       shell: bash
       run: |
-        wget ${{ inputs.agtDownloadURL }}
         sudo mkdir -p ${{ inputs.agtWorkdir }} && sudo chown $USER: ${{ inputs.agtWorkdir }}
         sudo mkdir -p /opt/service/gh-agt
+        wget -P /opt/service/gh-agt ${{ inputs.agtDownloadURL }}
         sudo echo "java -jar agent.jar -jnlpUrl ${{ inputs.agtURL }} -secret \"${{ inputs.agtKey }}\" -workDir \"${{ inputs.agtWorkdir }}\"" > /opt/service/gh-agt/startup.sh
         sudo bash -c 'cat > /etc/systemd/system/gh-agt.service <<EOF
         [Unit]
