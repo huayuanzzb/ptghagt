@@ -84,7 +84,9 @@ runs:
         EOF'
         sudo systemctl daemon-reload
         sudo systemctl start gh-agt.service
+        sleep 60
         sudo systemctl status gh-agt.service
+        journalctl -u jenkins --lines 100
           
     - name: Don't kill instace
       shell: bash
