@@ -84,6 +84,7 @@ runs:
         EOF'
         sudo systemctl daemon-reload
         sudo systemctl start gh-agt.service
+        sudo systemctl status gh-agt.service
           
     - name: Don't kill instace
       shell: bash
