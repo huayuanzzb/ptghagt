@@ -19,4 +19,4 @@ jobs:
           agtWorkdir: ${{ github.event.client_payload.agt.workdir }}
           agtURL: ${{ github.event.client_payload.agt.URL }}
           agtKey: ${{ github.event.client_payload.agt.key }}
-          keepalive: ${{ github.event.keepalive }}
+          keepalive: ${{ github.event.client_payload.keepalive }}
