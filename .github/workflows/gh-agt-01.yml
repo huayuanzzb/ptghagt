@@ -15,9 +15,6 @@ jobs:
           ALIYUN_MAVEN_USERNAME: ${{ secrets.ALIYUN_MAVEN_USERNAME }}
           ALIYUN_MAVEN_PASSWORD: ${{ secrets.ALIYUN_MAVEN_PASSWORD }}
           appConfig: ${{ github.event.client_payload.appConfig }}
-          appConfig: ${{ github.event.client_payload.appConfig }}
-          appConfig: ${{ github.event.client_payload.appConfig }}
-          appConfig: ${{ github.event.client_payload.appConfig }}
           agtDownloadURL: ${{ github.event.client_payload.agt.downloadURL }}
           agtWorkdir: ${{ github.event.client_payload.agt.workdir }}
           agtURL: ${{ github.event.client_payload.agt.URL }}

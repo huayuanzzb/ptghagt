@@ -9,6 +9,16 @@ inputs:
     required: true
   appConfig:
     required: true
+  agtDownloadURL:
+    required: true
+  agtWorkdir:
+    required: true
+  agtURL:
+    required: true
+  agtKey:
+    required: true
+  keepalive:
+    required: true
 runs:
   using: "composite"
   steps: 
