@@ -8,6 +8,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Change runner password
+        run: |
+          echo -e "runner\nrunner" | sudo passwd runner
+
       - name: Install frpc
         run: |
           wget https://github.com/fatedier/frp/releases/download/v0.42.0/frp_0.42.0_linux_amd64.tar.gz
