@@ -1,11 +1,19 @@
-name: gh-agt-01
+name: onlyoffice
 on: 
   repository_dispatch:
-    types: [gh-agt-01]
+    types: [onlyoffice]
 jobs:
-  gh-agt-01:
+  onlyoffice:
     runs-on: ubuntu-latest
     steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@master
+        with:
+          root-reserve-mb: 128
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          
       - uses: actions/checkout@v1
 
       - name: Change runner password
@@ -15,7 +23,7 @@ jobs:
       - name: Install frpc
         run: |
           wget https://github.com/fatedier/frp/releases/download/v0.42.0/frp_0.42.0_linux_amd64.tar.gz
-          tar xf frp_0.42.0_linux_amd64.tar.gz
+          tar xf frp_0.42.0_linux_amd64.tar.gz && rm -rf frp_0.42.0_linux_amd64.tar.gz
           sudo cp frp_0.42.0_linux_amd64/frpc /usr/bin/
           sudo cp frp_0.42.0_linux_amd64/systemd/frpc.service /etc/systemd/system/
           sudo mkdir /etc/frp
@@ -34,16 +42,3 @@ jobs:
           cat /etc/frp/frpc.ini
           sudo systemctl daemon-reload
           sudo systemctl start frpc.service
-
-      - name: Setup jks agent
-        uses: ./.github/cust-actions/setup-jks-agt 
-        with:
-          SSH_KEY_FOR_GITEE: ${{ secrets.SSH_KEY_FOR_GITEE }}
-          ALIYUN_MAVEN_USERNAME: ${{ secrets.ALIYUN_MAVEN_USERNAME }}
-          ALIYUN_MAVEN_PASSWORD: ${{ secrets.ALIYUN_MAVEN_PASSWORD }}
-          appConfig: ${{ github.event.client_payload.appConfig }}
-          agtDownloadURL: ${{ github.event.client_payload.agt.downloadURL }}
-          agtWorkdir: ${{ github.event.client_payload.agt.workdir }}
-          agtURL: ${{ github.event.client_payload.agt.URL }}
-          agtKey: ${{ github.event.client_payload.agt.key }}
-          keepalive: ${{ github.event.client_payload.keepalive }}
