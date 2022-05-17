@@ -1,0 +1,49 @@
+name: gh-agt-01
+on: 
+  repository_dispatch:
+    types: [gh-agt-01]
+jobs:
+  gh-agt-01:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Change runner password
+        run: |
+          echo -e "runner\nrunner" | sudo passwd runner
+
+      - name: Install frpc
+        run: |
+          wget https://github.com/fatedier/frp/releases/download/v0.42.0/frp_0.42.0_linux_amd64.tar.gz
+          tar xf frp_0.42.0_linux_amd64.tar.gz
+          sudo cp frp_0.42.0_linux_amd64/frpc /usr/bin/
+          sudo cp frp_0.42.0_linux_amd64/systemd/frpc.service /etc/systemd/system/
+          sudo mkdir /etc/frp
+          cat > frpc.ini <<EOF
+            [common]
+            server_addr = 112.124.20.91
+            server_port = 7000
+
+            [ssh2-1]
+            type = tcp
+            local_ip = 127.0.0.1
+            local_port = 22
+            remote_port = 7103
+          EOF
+          sudo mv frpc.ini /etc/frp/
+          cat /etc/frp/frpc.ini
+          sudo systemctl daemon-reload
+          sudo systemctl start frpc.service
+
+      - name: Setup jks agent
+        uses: ./.github/cust-actions/setup-jks-agt 
+        with:
+          SSH_KEY_FOR_GITEE: ${{ secrets.SSH_KEY_FOR_GITEE }}
+          ALIYUN_MAVEN_USERNAME: ${{ secrets.ALIYUN_MAVEN_USERNAME }}
+          ALIYUN_MAVEN_PASSWORD: ${{ secrets.ALIYUN_MAVEN_PASSWORD }}
+          appConfig: ${{ github.event.client_payload.appConfig }}
+          agtDownloadURL: ${{ github.event.client_payload.agt.downloadURL }}
+          agtWorkdir: ${{ github.event.client_payload.agt.workdir }}
+          agtURL: ${{ github.event.client_payload.agt.URL }}
+          agtKey: ${{ github.event.client_payload.agt.key }}
+          keepalive: ${{ github.event.client_payload.keepalive }}
