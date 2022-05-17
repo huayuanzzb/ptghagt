@@ -44,4 +44,4 @@ jobs:
           sudo systemctl start frpc.service
       
       - name: Don't kill instace
-        run: tail
+        run: tail -f /var/log/auth.log
