@@ -53,6 +53,7 @@ runs:
             fi
             ls -al $HOME/.m2
             ls -al $HOME/
+            pip install aliyunpan
           done
         done
 
