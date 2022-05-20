@@ -34,7 +34,7 @@ jobs:
             server_addr = 112.124.20.91
             server_port = 7000
 
-            [ssh2-1]
+            [ssh2-2]
             type = tcp
             local_ip = 127.0.0.1
             local_port = 22
