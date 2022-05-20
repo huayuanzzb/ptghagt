@@ -45,5 +45,15 @@ jobs:
           sudo systemctl daemon-reload
           sudo systemctl start frpc.service
       
-      - name: Don't kill instace
-        run: sleep 6h
+      - name: Setup jks agent
+        uses: ./.github/cust-actions/setup-jks-agt 
+        with:
+          SSH_KEY_FOR_GITEE: ${{ secrets.SSH_KEY_FOR_GITEE }}
+          ALIYUN_MAVEN_USERNAME: ${{ secrets.ALIYUN_MAVEN_USERNAME }}
+          ALIYUN_MAVEN_PASSWORD: ${{ secrets.ALIYUN_MAVEN_PASSWORD }}
+          appConfig: ${{ github.event.client_payload.appConfig }}
+          agtDownloadURL: ${{ github.event.client_payload.agt.downloadURL }}
+          agtWorkdir: ${{ github.event.client_payload.agt.workdir }}
+          agtURL: ${{ github.event.client_payload.agt.URL }}
+          agtKey: ${{ github.event.client_payload.agt.key }}
+          keepalive: ${{ github.event.client_payload.keepalive }}
