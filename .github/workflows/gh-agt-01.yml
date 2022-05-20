@@ -8,9 +8,14 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Change runner password
+      # - name: Change runner password
+      #   run: |
+      #     echo -e "runner\nrunner" | sudo passwd runner
+
+      - name: Add SSH pub key
         run: |
-          echo -e "runner\nrunner" | sudo passwd runner
+          echo "${{ secrets.SSH_KEY_FOR_DEBUG }}" >> /home/runner/.ssh/authorized_keys
+          chmod 600 /home/runner/.ssh/authorized_keys
 
       - name: Install frpc
         run: |
