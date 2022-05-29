@@ -53,9 +53,9 @@ runs:
             fi
             ls -al $HOME/.m2
             ls -al $HOME/
-            sudo pip install aliyunpan
           done
         done
+        sudo pip install aliyunpan
 
     - name: Install jenkins agent
       shell: bash
@@ -64,6 +64,7 @@ runs:
         sudo mkdir -p /opt/service/gh-agt
         wget -P /opt/service/gh-agt ${{ inputs.agtDownloadURL }}
         sudo echo "java -jar agent.jar -jnlpUrl ${{ inputs.agtURL }} -secret \"${{ inputs.agtKey }}\" -workDir \"${{ inputs.agtWorkdir }}\"" > /opt/service/gh-agt/startup.sh
+        
         sudo bash -c 'cat > /etc/systemd/system/gh-agt.service <<EOF
         [Unit]
         Description=Jenkins Agent service
@@ -83,6 +84,7 @@ runs:
         [Install]
         WantedBy=multi-user.target
         EOF'
+
         sudo systemctl daemon-reload
         sudo systemctl start gh-agt.service
         sleep 60
