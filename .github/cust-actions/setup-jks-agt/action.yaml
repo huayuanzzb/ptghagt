@@ -34,6 +34,9 @@ runs:
         for repo in `echo $conf | jq -r '.[] | .repoName' | sort | uniq`
         do
           [ ! -d "$repo" ] && GIT_SSH_COMMAND='ssh -i id_rsa -o StrictHostKeyChecking=no' git clone git@gitee.com:primtal/$repo.git
+        done
+        for repo in `echo $conf | jq -r '.[] | .repoName' | sort | uniq`
+        do
           for app in `echo $conf | jq -c ".[] | select(.repoName | contains(\"$repo\"))"`
           do
             appType=`echo $app | jq -r '.appType'`
