@@ -74,6 +74,7 @@ runs:
         After=network.target
 
         [Service]
+        EnvironmentFile=/opt/service/gh-agt/env
         WorkingDirectory=/opt/service/gh-agt
         ExecStart=/bin/bash startup.sh
         ExecStop=/bin/kill -9 $MAINPID
@@ -88,6 +89,7 @@ runs:
         WantedBy=multi-user.target
         EOF'
 
+        echo UPTIME=`date +"%s"` > /opt/service/gh-agt/env
         sudo systemctl daemon-reload
         sudo systemctl start gh-agt.service
         sleep 60
