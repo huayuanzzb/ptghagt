@@ -31,6 +31,7 @@ runs:
         ls -al .
         echo "${{ inputs.SSH_KEY_FOR_GITEE }}" > id_rsa && chmod 600 id_rsa
         conf=`echo ${{ inputs.appConfig }} | base64 --decode`
+        echo "appConf: ${conf}"
         for repo in `echo $conf | jq -r '.[] | .repoName' | sort | uniq`
         do
           [ ! -d "$repo" ] && GIT_SSH_COMMAND='ssh -i id_rsa -o StrictHostKeyChecking=no' git clone git@gitee.com:primtal/$repo.git
